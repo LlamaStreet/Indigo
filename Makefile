@@ -1,3 +1,10 @@
+
+define build_dep
+	(cd $(1) && idris2 --build Bootstrap.ipkg --build-dir ../build)
+endef
+
 DEFAULT:
-	@mkdir build
-	@idris2 src/Main.idr -o inigo --build-dir build
+	@mkdir -p build
+	$(call build_dep,Toml)
+	@idris2 Indigo/Main.idr -o indigo --build-dir build
+	@./build/exec/indigo

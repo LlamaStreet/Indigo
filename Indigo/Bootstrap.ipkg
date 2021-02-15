@@ -1,0 +1,6 @@
+package Indigo
+
+sourcedir = ""
+modules = Main
+
+executable = Main

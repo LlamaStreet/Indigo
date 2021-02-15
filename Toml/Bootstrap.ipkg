@@ -1,0 +1,6 @@
+package Toml
+
+modules = Toml
+depends = idris2, contrib
+
+sourcedir = ""
