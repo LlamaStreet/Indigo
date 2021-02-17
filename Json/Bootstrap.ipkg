@@ -1,0 +1,6 @@
+package Json
+
+modules = Json
+depends = contrib, idris2
+
+sourcedir = ""
