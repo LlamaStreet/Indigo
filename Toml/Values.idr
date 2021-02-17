@@ -1,10 +1,29 @@
 module Values
 
+import Lexer 
 import Data.SortedMap
 import Data.List
 
-mutual 
+public export
+record Pos where
+    constructor MkPos
+    line, column : Int
 
+public export
+data TomlError 
+    = LexicalErr Pos 
+    | ParsingErr String Pos
+    | EofErr 
+    
+public export
+Show TomlError where 
+    show (LexicalErr pos) = 
+        "LexicalErr on line " ++ (show pos.line) ++ " and column " ++ (show pos.column)
+    show (ParsingErr str pos) = 
+        str ++ " on line " ++ (show pos.line) ++ " and column " ++ (show pos.column)
+    show EofErr =
+        "End of file"
+mutual 
     public export
     data Value = 
         VStr String
@@ -13,26 +32,8 @@ mutual
         | VBool       Bool 
         | VDatetime   Integer
         | VArray      (List Value)  
-        | VTable      ParsedToml
+        | VTable      Toml
 
     public export
-    ParsedToml : Type
-    ParsedToml = (SortedMap String Value)
-
-string_concat : String -> String -> String
-string_concat acc current = acc ++ current
-
-Show Value where 
-    show (VStr x) = x
-    show (VInt x) = show x
-    show (VFloat x) = show x
-    show (VBool x) = show x
-    show (VDatetime x) = show x
-    show (VArray x) =
-        let arr = (foldl (string_concat) "" (map (\n => show n) x)) in  
-        "[" ++ arr ++ "]"
-    show (VTable x) = ?hole
-
-acc_line : String -> (String, Value) -> String 
-acc_line acc (name, val) = acc ++ name ++ " = " ++ (show val) ++ "\n"
-
+    Toml : Type
+    Toml = (SortedMap String Value)
