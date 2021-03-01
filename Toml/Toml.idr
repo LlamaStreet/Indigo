@@ -1,16 +1,19 @@
 module Toml
 
-import public Data.SortedMap
-import public Values 
+import Data.SortedMap
+import Text.Parser
+import Values 
 import Data.List
 import Lexer
 import Grammar
 
 public export 
-deserialize : String -> (SortedMap String Value)
-deserialize name = ?Hole
+deserialize : String -> Either String Toml
+deserialize code = 
+    case parseToml code of 
+        Left x => Left "Oh no!"
+        Right toml => Right toml
 
 public export
-lookup : String -> (SortedMap String Value) -> (Maybe Value)
-lookup name toml = SortedMap.lookup name toml 
-
+lookup : String -> Toml -> (Maybe Value)
+lookup key toml = SortedMap.lookup key toml 
