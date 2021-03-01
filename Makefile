@@ -7,4 +7,3 @@ DEFAULT:
 	@mkdir -p build
 	$(call build_dep,Toml)
 	@idris2 Indigo/Main.idr -o indigo --build-dir build
-	@./build/exec/indigo

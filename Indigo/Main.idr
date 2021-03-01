@@ -1,8 +1,11 @@
 module Main
 
-import Toml
+import System
+import Indigo.Commands
 
 main : IO ()
-
 main = do
-  putStrLn Toml.simple_test
+  args <- getArgs
+  action <- getAction args
+  exitWith !(execCommand action)
+  
